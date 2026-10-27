@@ -1,0 +1,18 @@
+# Compiled binaries
+bin/
+*.app/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# macOS
+.DS_Store
+
+# Local configs & logs
+config.json
+state.json
+*.log
+*.err

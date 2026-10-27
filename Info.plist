@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleIdentifier</key>
+    <string>io.github.kuscher.photosync.icloud-bridge</string>
+    <key>CFBundleName</key>
+    <string>PhotoSync iCloud Bridge</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>PhotoSync syncs The Kingpins iCloud Shared Album with Google Photos.</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>PhotoSync adds photos from Google Photos into The Kingpins iCloud Shared Album.</string>
+</dict>
+</plist>

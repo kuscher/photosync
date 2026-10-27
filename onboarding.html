@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PhotoSync — How-To &amp; Setup Guide</title>
+  <style>
+    :root {
+      --bg: #0f1115;
+      --card: #181b22;
+      --border: #2a2f3a;
+      --text: #eef1f6;
+      --muted: #9aa3b2;
+      --accent: #34c759;
+      --accent-blue: #0a84ff;
+      --code-bg: #0a0c10;
+      --warn-bg: rgba(255, 159, 10, 0.12);
+      --warn-border: rgba(255, 159, 10, 0.4);
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f5f6f8;
+        --card: #ffffff;
+        --border: #e1e4ea;
+        --text: #1c1e21;
+        --muted: #5f6672;
+        --accent: #28a745;
+        --accent-blue: #0066cc;
+        --code-bg: #f0f2f6;
+        --warn-bg: #fff9eb;
+        --warn-border: #f5c56b;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 40px 20px 80px;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .title-group h1 {
+      margin: 0 0 6px;
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .status-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
+      display: inline-block;
+    }
+    .title-group p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+    .flow-banner {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      font-size: 13.5px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .flow-step {
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 8px;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+    }
+    .flow-arrow {
+      color: var(--accent-blue);
+      font-weight: bold;
+      font-size: 16px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px 24px;
+      margin-bottom: 18px;
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .card-header input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+    .card-header h2 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 650;
+    }
+    .badge {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 3px 8px;
+      border-radius: 99px;
+      background: rgba(10, 132, 255, 0.15);
+      color: var(--accent-blue);
+      margin-left: auto;
+    }
+    .badge.green {
+      background: rgba(52, 199, 89, 0.15);
+      color: var(--accent);
+    }
+    p { margin: 8px 0 12px; color: var(--muted); font-size: 14.5px; }
+    ul, ol { margin: 8px 0 12px 20px; color: var(--muted); font-size: 14.5px; }
+    li { margin-bottom: 6px; }
+    li strong { color: var(--text); }
+    code {
+      font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
+      font-size: 12.5px;
+      background: var(--code-bg);
+      padding: 2px 6px;
+      border-radius: 5px;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .code-wrap {
+      position: relative;
+      margin: 12px 0;
+    }
+    pre {
+      margin: 0;
+      padding: 14px 90px 14px 16px;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow-x: auto;
+      font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .copy-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .copy-btn:hover {
+      border-color: var(--accent-blue);
+    }
+    .copy-btn.copied {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .note {
+      background: var(--warn-bg);
+      border: 1px solid var(--warn-border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: 13.5px;
+      color: var(--text);
+      margin-top: 12px;
+    }
+    .reset-btn {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .reset-btn:hover { color: var(--text); }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 13.5px;
+    }
+    th, td {
+      text-align: left;
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--border);
+      color: var(--muted);
+    }
+    th { color: var(--text); font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="title-group">
+        <h1><span class="status-dot"></span> PhotoSync — How-To &amp; Setup Guide</h1>
+        <p>Two-Way Bridge Between Google Photos Shared Albums (Android / Pixel) &amp; Apple iCloud Shared Albums (iPhone)</p>
+      </div>
+      <button class="reset-btn" onclick="resetChecklist()">Reset Checklist</button>
+    </header>
+
+    <div class="flow-banner">
+      <span class="flow-step">Pixel (Google Photos)</span>
+      <span class="flow-arrow">⇄</span>
+      <span class="flow-step">Google Shared Album</span>
+      <span class="flow-arrow">⇄</span>
+      <span class="flow-step">Mac PhotoSync + PhotoKit</span>
+      <span class="flow-arrow">⇄</span>
+      <span class="flow-step">iCloud Shared Album</span>
+      <span class="flow-arrow">⇄</span>
+      <span class="flow-step">Partner's iPhone</span>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <input type="checkbox" id="step-auto" onchange="saveCheck(this)" />
+        <h2>Fast Path: Automated Interactive Setup Flow</h2>
+        <span class="badge green">Recommended</span>
+      </div>
+      <p>
+        Run <code>./setup.sh</code> (or click <strong>"Run Setup Wizard in Terminal…"</strong> in the PhotoSync menu bar dropdown). It compiles the native Swift PhotoKit bridge (<code>bin/icloud-bridge</code>) and menu bar app (<code>~/Applications/PhotoSync.app</code>), creates the isolated Python virtualenv at <code>~/.local/share/photosync/venv</code>, configures your album names/URLs, optionally opens the Google Photos sign-in window, and starts the background sync daemon:
+      </p>
+      <div class="code-wrap">
+        <pre id="cmd-auto">~/projects/PhotoSync/setup.sh</pre>
+        <button class="copy-btn" onclick="copyCode('cmd-auto', this)">Copy</button>
+      </div>
+      <p>To change the iCloud Shared Album name, Google Photos Shared Album link, or poll interval interactively at any time:</p>
+      <div class="code-wrap">
+        <pre id="cmd-reconf">~/projects/PhotoSync/setup.sh --reconfigure</pre>
+        <button class="copy-btn" onclick="copyCode('cmd-reconf', this)">Copy</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <input type="checkbox" id="step-1" onchange="saveCheck(this)" />
+        <h2>Step 1 — Enable iCloud Shared Albums on Your Mac</h2>
+        <span class="badge">Apple Photos</span>
+      </div>
+      <ol>
+        <li>Open <strong>Photos.app</strong> on your Mac and press <code>⌘,</code> (<strong>Settings → iCloud</strong>).</li>
+        <li>Check <strong>Shared Albums</strong>.</li>
+        <li>Under <strong>Shared Albums</strong> in the sidebar, create or accept your shared album (default: <strong>"The Kingpins"</strong>) and invite your partner's Apple ID.</li>
+        <li>Verify that <code>bin/icloud-bridge</code> can see the album and list its items:</li>
+      </ol>
+      <div class="code-wrap">
+        <pre id="cmd-icloud-list">~/projects/PhotoSync/bin/icloud-bridge list --album "The Kingpins"</pre>
+        <button class="copy-btn" onclick="copyCode('cmd-icloud-list', this)">Copy</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <input type="checkbox" id="step-2" onchange="saveCheck(this)" />
+        <h2>Step 2 — Create Your Google Photos Shared Album</h2>
+        <span class="badge">Google Photos</span>
+      </div>
+      <ol>
+        <li>On your Pixel or at <a href="https://photos.google.com/albums" target="_blank" style="color: var(--accent-blue);">photos.google.com</a>, create a shared album (e.g., <strong>"The Kingpins"</strong>).</li>
+        <li>Open the album's <strong>Share</strong> settings and enable <strong>Link sharing</strong> and <strong>Collaborate (Let others add their photos)</strong>.</li>
+        <li>Save the share link in <code>~/.config/photosync/config.json</code> (or via <code>setup.sh --reconfigure</code>).</li>
+      </ol>
+      <div class="note">
+        <strong>Why a Shared Album Link?</strong> In March 2025, Google restricted the OAuth <code>photoslibrary.readonly</code> API scope so third-party OAuth apps can no longer list arbitrary albums. Polling the shared album link directly downloads full-resolution originals (<code>=d</code> for photos, <code>=dv</code> for videos) with EXIF &amp; GPS intact without needing OAuth tokens.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <input type="checkbox" id="step-3" onchange="saveCheck(this)" />
+        <h2>Step 3 — One-Time Google Sign-In (For iCloud → Google Uploads)</h2>
+        <span class="badge">One-Time Setup</span>
+      </div>
+      <p>
+        <strong>Google Photos → iCloud</strong> works out-of-the-box with zero login. For <strong>iCloud → Google Photos</strong> (when your partner adds a photo/video in iCloud and it uploads to your Google Photos shared album), sign in once inside the dedicated persistent Chrome profile (<code>~/.local/share/photosync/google-profile</code>):
+      </p>
+      <ul>
+        <li>Click <strong>"Sign in to Google Photos (Chrome)…"</strong> in the PhotoSync menu bar icon, <em>or</em> run:</li>
+      </ul>
+      <div class="code-wrap">
+        <pre id="cmd-login">~/.local/share/photosync/venv/bin/python3 ~/projects/PhotoSync/photosync.py --login-google</pre>
+        <button class="copy-btn" onclick="copyCode('cmd-login', this)">Copy</button>
+      </div>
+      <p>Once signed in and you see the <strong>"Add photos"</strong> button on the album page, close that Chrome window. Background uploads will run headlessly from then on.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <input type="checkbox" id="step-4" onchange="saveCheck(this)" />
+        <h2>Step 4 — Using the macOS Status Bar App (PhotoSync.app)</h2>
+        <span class="badge">Menu Bar</span>
+      </div>
+      <p><code>~/Applications/PhotoSync.app</code> lives in your macOS menu bar and monitors <code>/tmp/photosync-status.json</code> every 2 seconds:</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Menu Bar Icon / Item</th>
+            <th>Meaning / Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Filled Photo Stack + Green Dot</strong></td>
+            <td>Daemon is running and polling both albums every 30 seconds.</td>
+          </tr>
+          <tr>
+            <td><strong>Outline Photo Stack + Red Dot</strong></td>
+            <td>Daemon is stopped. Click <strong>Start PhotoSync</strong> or <strong>Restart PhotoSync Now</strong>.</td>
+          </tr>
+          <tr>
+            <td><strong>Sync Now (⌘S)</strong></td>
+            <td>Runs an immediate two-way sync check without waiting for the 30-second timer.</td>
+          </tr>
+          <tr>
+            <td><strong>Open Google Photos Shared Album (⌘G)</strong></td>
+            <td>Opens the shared album in your default browser.</td>
+          </tr>
+          <tr>
+            <td><strong>Open Apple Photos (⌘P)</strong></td>
+            <td>Launches macOS <code>Photos.app</code> so you can view the iCloud Shared Album.</td>
+          </tr>
+          <tr>
+            <td><strong>Restart PhotoSync Now (⌘R)</strong></td>
+            <td>Cleanly stops and restarts the background <code>photosync.py</code> daemon.</td>
+          </tr>
+          <tr>
+            <td><strong>View Sync Log… (⌘L)</strong></td>
+            <td>Opens <code>~/Library/Logs/photosync.log</code> in Console / your default editor.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <input type="checkbox" id="step-5" onchange="saveCheck(this)" />
+        <h2>Step 5 — Diagnostics &amp; Useful Commands</h2>
+        <span class="badge">Reference</span>
+      </div>
+      <p>Run a single sync cycle manually in the foreground:</p>
+      <div class="code-wrap">
+        <pre id="cmd-once">~/.local/share/photosync/venv/bin/python3 ~/projects/PhotoSync/photosync.py --once</pre>
+        <button class="copy-btn" onclick="copyCode('cmd-once', this)">Copy</button>
+      </div>
+      <p>Inspect live daemon status and synced item state:</p>
+      <div class="code-wrap">
+        <pre id="cmd-status">cat /tmp/photosync-status.json
+cat ~/.local/share/photosync/state.json
+tail -n 30 ~/Library/Logs/photosync.log</pre>
+        <button class="copy-btn" onclick="copyCode('cmd-status', this)">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = "photosync_onboarding_checks_v1";
+
+    function loadChecks() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+        document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+          if (saved[cb.id]) cb.checked = true;
+        });
+      } catch (e) {}
+    }
+
+    function saveCheck(el) {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+        saved[el.id] = el.checked;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+      } catch (e) {}
+    }
+
+    function resetChecklist() {
+      localStorage.removeItem(STORAGE_KEY);
+      document.querySelectorAll('input[type="checkbox"]').forEach(cb => { cb.checked = false; });
+    }
+
+    function copyCode(id, btn) {
+      const text = document.getElementById(id).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const old = btn.innerText;
+        btn.innerText = "Copied!";
+        btn.classList.add("copied");
+        setTimeout(() => {
+          btn.innerText = old;
+          btn.classList.remove("copied");
+        }, 1400);
+      });
+    }
+
+    loadChecks();
+  </script>
+</body>
+</html>
