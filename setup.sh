@@ -230,7 +230,10 @@ EOF
 # Restart daemon & launch Menu Bar app
 pkill -f "PhotoSync.app/Contents/MacOS/PhotoSync" 2>/dev/null || true
 pkill -f "photosync.py" 2>/dev/null || true
-sleep 0.5
+for _ in 1 2 3 4 5; do
+    pgrep -f "photosync.py" >/dev/null 2>&1 || break
+    sleep 0.4
+done
 
 "$VENV_PY" -c '
 import subprocess, pathlib

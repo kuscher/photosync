@@ -276,7 +276,7 @@ final class PhotoSyncMenuBarController: NSObject, NSApplicationDelegate, NSMenuD
 
     @objc private func restartDaemon() {
         stopDaemonProcess()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) { [weak self] in
             self?.startDaemonProcess()
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                 self?.refreshState()
